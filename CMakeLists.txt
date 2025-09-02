@@ -3,4 +3,20 @@ project(8552Tutorial)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(8552Tutorial main.cpp)
+# Set SDL3 include and lib paths
+if (WIN32)
+    set(SDL3_PATH "D:/Apps/sdl3")
+    include_directories(${SDL3_PATH}/include)
+    link_directories($(SDL3_PATH)/lib)
+endif()
+
+add_executable(
+    8552Tutorial
+    main.cpp
+    Game.cpp
+)
+
+target_link_libraries(
+    8552Tutorial
+    SDL3
+)
