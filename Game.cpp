@@ -69,19 +69,21 @@ void Game::handleEvents()
     }
 }
 
-void Game::update()
+void Game::update(Uint64 elapsedMs)
 {
     frameCount++;
-    std::cout << frameCount << std::endl;
+    // std::cout << frameCount << std::endl;
+
+    Uint64 deltaMs = elapsedMs - lastColorChangeMs;
+    if (deltaMs >= 1000)
+    {
+        lastColorChangeMs = elapsedMs;
+        changeRendererColor();
+    }
 }
 
 void Game::render()
 {
-    r = 100;
-    g = 255;
-    b = 50;
-    a = 255;
-
     // Sets the default colour to draw with
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
     // Clear the renderer with the draw colour
@@ -99,5 +101,13 @@ void Game::destroy()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-    std::cout << "Game was destroyed/memory should be cleaned" << std::endl;
+    std::cout << "Game was destroyed, used memory should be clear." << std::endl;
+}
+
+void Game::changeRendererColor()
+{
+    r = std::rand() % 256;
+    g = std::rand() % 256;
+    b = std::rand() % 256;
+    a = 255;
 }
