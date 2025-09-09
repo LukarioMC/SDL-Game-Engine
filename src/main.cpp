@@ -36,10 +36,10 @@ int main()
         }
 
         // Logs when a frame takes longer than expected
-        if (actualFrameTime > desiredFrameTime)
-        {
-            std::cout << "Frame took longer than expected! Actual frame ms: " << actualFrameTime << std::endl;
-        }
+        // if (actualFrameTime > desiredFrameTime)
+        // {
+        //     std::cout << "Frame took longer than expected! Actual frame ms: " << actualFrameTime << std::endl;
+        // }
     }
 
     // Cleanup game
