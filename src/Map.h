@@ -17,7 +17,6 @@ private:
     SDL_Texture *water = nullptr;
     SDL_Texture *dirt = nullptr;
     SDL_Texture *grass = nullptr;
-    SDL_Texture *ball = nullptr;
 
     int map[10][15]{};
 };
