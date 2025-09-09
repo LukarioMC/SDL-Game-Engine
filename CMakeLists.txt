@@ -22,6 +22,7 @@ add_executable(
     src/main.cpp
     src/Game.cpp
     src/TextureManager.cpp
+    src/Map.cpp
 )
 
 target_link_libraries(
