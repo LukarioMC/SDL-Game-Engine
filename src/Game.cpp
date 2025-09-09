@@ -58,7 +58,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 
     // Load map data
     map = new Map();
-    player = new GameObject("../asset/ball.png", 0, 0);
+    player = new GameObject("../asset/ball.png", 0, 0, 60.0f);
 }
 
 void Game::handleEvents()
@@ -82,15 +82,10 @@ void Game::update(Uint64 elapsedMs)
 {
     frameCount++;
     // std::cout << frameCount << std::endl;
+    deltaTime = (elapsedMs - lastFrameTimestamp) / 1000.0f;
+    lastFrameTimestamp = elapsedMs;
 
-    // Uint64 deltaMs = elapsedMs - lastColorChangeMs;
-    // if (deltaMs >= 1000)
-    // {
-    //     lastColorChangeMs = elapsedMs;
-    //     changeRendererColor();
-    // }
-
-    player->update();
+    player->update(deltaTime);
 }
 
 void Game::render()
@@ -100,7 +95,7 @@ void Game::render()
     // Clear the renderer with the draw colour
     SDL_RenderClear(renderer);
 
-    // TODO: Drawing goes here
+    // Subsystems/other drawing goes below.
     map->draw();
     player->draw();
 
@@ -117,7 +112,7 @@ void Game::destroy()
     std::cout << "Game was destroyed, used memory should be clear." << std::endl;
 }
 
-void Game::changeRendererColor()
+void Game::randomizeRendererColor()
 {
     r = std::rand() % 256;
     g = std::rand() % 256;

@@ -5,14 +5,16 @@
 class GameObject
 {
 public:
-    GameObject(const char *path, int x, int y);
+    GameObject(const char *path, float x, float y, float velocity);
     ~GameObject();
 
-    void update();
+    void update(float deltaTime);
     void draw();
 
+    float xVel{}, yVel{};
+
 private:
-    int xPos{}, yPos{};
+    float xPos{}, yPos{};
 
     SDL_Texture *texture = nullptr;
     SDL_FRect srcRect{}, dstRect{};

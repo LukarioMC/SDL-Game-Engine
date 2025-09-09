@@ -28,7 +28,7 @@ public:
         return renderer;
     }
 
-    void changeRendererColor();
+    void randomizeRendererColor();
 
 private:
     int frameCount = 0;
@@ -40,6 +40,6 @@ private:
     // SDL uses  unsigned 8-bit colour channels (0-255)
     Uint8 r, g, b, a;
 
-    // Stores the last time the colour was changed
-    Uint64 lastColorChangeMs = 0;
+    Uint64 lastFrameTimestamp = 0;
+    float deltaTime = 0.0f;
 };

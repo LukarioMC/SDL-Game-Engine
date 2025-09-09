@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "TextureManager.h"
 
-GameObject::GameObject(const char *path, int x, int y) : xPos(x), yPos(y), texture(TextureManager::load(path))
+GameObject::GameObject(const char *path, float x, float y, float velocity) : xPos(x), yPos(y), xVel(velocity), yVel(velocity), texture(TextureManager::load(path))
 {
     srcRect.x = srcRect.y = 0;
     srcRect.w = srcRect.h = 32;
@@ -13,14 +13,12 @@ GameObject::~GameObject()
         SDL_DestroyTexture(texture);
 }
 
-void GameObject::update()
+void GameObject::update(float deltaTime)
 {
-    // Move object by 1 pixel
-    xPos++;
-    yPos++;
-
-    dstRect.x = static_cast<float>(xPos);
-    dstRect.y = static_cast<float>(yPos);
+    xPos += xVel * deltaTime;
+    yPos += yVel * deltaTime;
+    dstRect.x = xPos;
+    dstRect.y = yPos;
     dstRect.w = srcRect.w;
     dstRect.h = srcRect.h;
 }
