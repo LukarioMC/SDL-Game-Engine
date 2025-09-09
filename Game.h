@@ -23,14 +23,19 @@ public:
         return isRunning;
     }
 
+    SDL_Renderer *getRenderer()
+    {
+        return renderer;
+    }
+
     void changeRendererColor();
 
 private:
     int frameCount = 0;
-    bool isRunning;
+    bool isRunning = false;
 
-    SDL_Window *window;
-    SDL_Renderer *renderer;
+    SDL_Window *window = nullptr;
+    SDL_Renderer *renderer = nullptr;
 
     // SDL uses  unsigned 8-bit colour channels (0-255)
     Uint8 r, g, b, a;
