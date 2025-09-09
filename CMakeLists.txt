@@ -19,8 +19,9 @@ endif()
 
 add_executable(
     8552Tutorial
-    main.cpp
-    Game.cpp
+    src/main.cpp
+    src/Game.cpp
+    src/TextureManager.cpp
 )
 
 target_link_libraries(
