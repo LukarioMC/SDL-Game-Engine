@@ -1,7 +1,12 @@
-#include "Game.h"
-
 #include <iostream>
 #include <ostream>
+
+#include "Game.h"
+#include "GameObject.h"
+#include "Map.h"
+
+Map *map = nullptr;
+GameObject *player = nullptr;
 
 Game::Game()
 {
@@ -50,6 +55,10 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     {
         isRunning = false;
     }
+
+    // Load map data
+    map = new Map();
+    player = new GameObject("../asset/ball.png", 0, 0);
 }
 
 void Game::handleEvents()
@@ -74,12 +83,14 @@ void Game::update(Uint64 elapsedMs)
     frameCount++;
     // std::cout << frameCount << std::endl;
 
-    Uint64 deltaMs = elapsedMs - lastColorChangeMs;
-    if (deltaMs >= 1000)
-    {
-        lastColorChangeMs = elapsedMs;
-        changeRendererColor();
-    }
+    // Uint64 deltaMs = elapsedMs - lastColorChangeMs;
+    // if (deltaMs >= 1000)
+    // {
+    //     lastColorChangeMs = elapsedMs;
+    //     changeRendererColor();
+    // }
+
+    player->update();
 }
 
 void Game::render()
@@ -90,6 +101,8 @@ void Game::render()
     SDL_RenderClear(renderer);
 
     // TODO: Drawing goes here
+    map->draw();
+    player->draw();
 
     // Display everything that was drawn to the screen.
     // First draws it to a back buffer and swaps the buffer to the screen.

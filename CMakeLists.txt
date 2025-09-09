@@ -21,6 +21,7 @@ add_executable(
     8552Tutorial
     src/main.cpp
     src/Game.cpp
+    src/GameObject.cpp
     src/TextureManager.cpp
     src/Map.cpp
 )
