@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 
+#include "Game.h"
 #include "TextureManager.h"
 
 // Just grab the game object reference

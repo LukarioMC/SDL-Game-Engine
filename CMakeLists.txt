@@ -10,6 +10,9 @@ if (WIN32)
     include_directories(
         ${SDL3_PATH}/include
         ${SDL3_IMAGE_PATH}/include
+        ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_SOURCE_DIR}/src/ecs
+        ${PROJECT_SOURCE_DIR}/src/ecs/system
     )
     link_directories(
         ${SDL3_PATH}/lib

@@ -2,11 +2,10 @@
 #include <ostream>
 
 #include "Game.h"
-#include "GameObject.h"
 #include "Map.h"
+#include "TextureManager.h"
 
 Map *map = nullptr;
-GameObject *player = nullptr;
 
 Game::Game()
 {
@@ -58,7 +57,14 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 
     // Load map data
     map = new Map();
-    player = new GameObject("../asset/ball.png", 0, 0, 60.0f);
+    // Add entities
+    auto &player(world.createEntity());
+    auto &playerPos = player.addComponent<Position>(0, 0);
+
+    SDL_Texture *tex = TextureManager::load("../asset/ball.png");
+    SDL_FRect playerSrc{0, 0, 32, 32};
+    SDL_FRect playerDst{playerPos.x, playerPos.y, 64, 64};
+    player.addComponent<Sprite>(tex, playerSrc, playerDst);
 }
 
 void Game::handleEvents()
@@ -78,14 +84,9 @@ void Game::handleEvents()
     }
 }
 
-void Game::update(Uint64 elapsedMs)
+void Game::update(float dt)
 {
-    frameCount++;
-    // std::cout << frameCount << std::endl;
-    deltaTime = (elapsedMs - lastFrameTimestamp) / 1000.0f;
-    lastFrameTimestamp = elapsedMs;
-
-    player->update(deltaTime);
+    world.update(dt);
 }
 
 void Game::render()
@@ -97,7 +98,7 @@ void Game::render()
 
     // Subsystems/other drawing goes below.
     map->draw();
-    player->draw();
+    world.render();
 
     // Display everything that was drawn to the screen.
     // First draws it to a back buffer and swaps the buffer to the screen.

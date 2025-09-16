@@ -12,6 +12,7 @@ int main()
 
     Uint64 ticks;        // Stores the total MILLISECONDS the program has been running for
     int actualFrameTime; // Stores the MILLISECONDS for each frame
+    float dt = 1.0f;
 
     game = new Game(); // Will need to manually clean this up later
     game->init("8552 Tutorial Engine", 800, 600, false);
@@ -22,11 +23,12 @@ int main()
 
         // Handle game logic and rendering
         game->handleEvents();
-        game->update(ticks);
+        game->update(dt);
         game->render();
 
         // Get elapsed time in ms of the last frame
         actualFrameTime = SDL_GetTicks() - ticks;
+        dt = actualFrameTime / 1000.0f;
 
         // Frame limiter, keep the game running at desired frame rate.
         // If the actual frame time took less time than our desired frame time, delay by their difference
