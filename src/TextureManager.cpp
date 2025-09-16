@@ -1,8 +1,8 @@
 #include <iostream>
 #include <ostream>
 
-#include "Game.h"
 #include "TextureManager.h"
+#include "Game.h"
 
 // Just grab the game object reference
 extern Game *game;
