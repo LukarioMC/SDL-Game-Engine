@@ -21,7 +21,7 @@ if (WIN32)
 endif()
 
 add_executable(
-    8552Tutorial
+    ${PROJECT_NAME}
     src/main.cpp
     src/Game.cpp
     src/GameObject.cpp
@@ -30,7 +30,7 @@ add_executable(
 )
 
 target_link_libraries(
-    8552Tutorial
+    ${PROJECT_NAME}
     SDL3
     SDL3_image
 )
