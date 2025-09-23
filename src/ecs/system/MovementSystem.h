@@ -12,11 +12,16 @@ public:
     {
         for (auto &entity : entities)
         {
-            if (entity->hasComponent<Transform>())
+            if (entity->hasComponent<Transform>() && entity->hasComponent<Velocity>())
             {
                 auto &t = entity->getComponent<Transform>();
-                t.position.x += 60 * dt;
-                t.position.y += 60 * dt;
+                auto v = entity->getComponent<Velocity>();
+                Vector2D direction = v.direction;
+                // Normalize
+                direction.normalize();
+                // We need an overloaded operator function
+                Vector2D velocity = direction * v.speed;
+                t.position += (velocity * dt);
             }
         }
     }

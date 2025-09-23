@@ -38,6 +38,7 @@ private:
 
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
+    SDL_Event event;
 
     // SDL uses  unsigned 8-bit colour channels (0-255)
     Uint8 r, g, b, a;

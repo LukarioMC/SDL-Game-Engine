@@ -5,17 +5,21 @@
 #include "Entity.h"
 #include "MovementSystem.h"
 #include "RenderSystem.h"
+#include "KeyboardInputSystem.h"
 
 class World
 {
     std::vector<std::unique_ptr<Entity>> entities;
     MovementSystem movementSystem;
     RenderSystem renderSystem;
+    KeyboardInputSystem keyboardInputSystem;
 
 public:
-    void update(float dt)
+    void update(float dt, const SDL_Event &event)
     {
+        keyboardInputSystem.update(entities, event);
         movementSystem.update(entities, dt);
+        cleanup();
     }
     void render()
     {

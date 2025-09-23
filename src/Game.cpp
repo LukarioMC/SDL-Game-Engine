@@ -60,6 +60,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     // Add entities
     auto &player(world.createEntity());
     auto &playerTransform = player.addComponent<Transform>(Vector2D(0, 0), 0.0f, 1.0f);
+    auto &playerVelocity = player.addComponent<Velocity>(Vector2D(10, 0), 60.0f);
 
     SDL_Texture *tex = TextureManager::load("../asset/mario.png");
     SDL_FRect playerSrc{0, 0, 32, 44};
@@ -69,8 +70,6 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 
 void Game::handleEvents()
 {
-    // SDL listens to the OS for input events and adds them into a queue
-    SDL_Event event;
     // Check foro next event, if there is one, remove it from the queue and store it in our event variable
     SDL_PollEvent(&event);
 
@@ -86,7 +85,7 @@ void Game::handleEvents()
 
 void Game::update(float dt)
 {
-    world.update(dt);
+    world.update(dt, event);
 }
 
 void Game::render()
