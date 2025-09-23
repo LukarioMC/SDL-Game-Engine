@@ -3,8 +3,8 @@
 #include <memory>
 
 #include "Entity.h"
-#include "Movement.h"
-#include "Render.h"
+#include "MovementSystem.h"
+#include "RenderSystem.h"
 
 class World
 {
