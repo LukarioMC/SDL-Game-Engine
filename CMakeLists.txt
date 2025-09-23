@@ -1,9 +1,14 @@
+# ------------------
+# Setup project parameters
+# ------------------
 cmake_minimum_required(VERSION 4.0)
 project(8552Tutorial)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# Set SDL3 include and lib paths
+# ------------------
+# Setup includes & library paths
+# ------------------
 if (WIN32)
     set(SDL3_PATH "D:/Apps/sdl3")
     set(SDL3_IMAGE_PATH "D:/Apps/sdl3-image")
@@ -20,14 +25,18 @@ if (WIN32)
     )
 endif()
 
-add_executable(
-    ${PROJECT_NAME}
-    src/main.cpp
-    src/Game.cpp
-    src/GameObject.cpp
-    src/TextureManager.cpp
-    src/Map.cpp
+# ---------------------
+# Source files
+# ---------------------
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
+    src/*.cpp
+    ${GLAD_PATH}/src/glad.c   # compile GLAD into exe
 )
+
+# ---------------------
+# Create executable & link libraries
+# ---------------------
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(
     ${PROJECT_NAME}
