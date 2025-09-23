@@ -12,11 +12,11 @@ public:
     {
         for (auto &entity : entities)
         {
-            if (entity->hasComponent<Position>())
+            if (entity->hasComponent<Transform>())
             {
-                auto &position = entity->getComponent<Position>();
-                position.x += 60 * dt;
-                position.y += 60 * dt;
+                auto &t = entity->getComponent<Transform>();
+                t.position.x += 60 * dt;
+                t.position.y += 60 * dt;
             }
         }
     }

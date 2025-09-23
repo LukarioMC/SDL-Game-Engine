@@ -59,11 +59,11 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     map = new Map();
     // Add entities
     auto &player(world.createEntity());
-    auto &playerPos = player.addComponent<Position>(0, 0);
+    auto &playerTransform = player.addComponent<Transform>(Vector2D(0, 0), 0.0f, 1.0f);
 
-    SDL_Texture *tex = TextureManager::load("../asset/ball.png");
-    SDL_FRect playerSrc{0, 0, 32, 32};
-    SDL_FRect playerDst{playerPos.x, playerPos.y, 64, 64};
+    SDL_Texture *tex = TextureManager::load("../asset/mario.png");
+    SDL_FRect playerSrc{0, 0, 32, 44};
+    SDL_FRect playerDst{playerTransform.position.x, playerTransform.position.y, 64, 88};
     player.addComponent<Sprite>(tex, playerSrc, playerDst);
 }
 
