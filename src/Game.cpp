@@ -70,7 +70,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 
 void Game::handleEvents()
 {
-    // Check foro next event, if there is one, remove it from the queue and store it in our event variable
+    // ? Why handle only one event per frame??
+    // Check for next event, if there is one, remove it from the queue and store it in our event variable
     SDL_PollEvent(&event);
 
     switch (event.type)

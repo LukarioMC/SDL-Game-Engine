@@ -10,16 +10,23 @@ int main()
     const int FPS = 144;                     // Target FPS
     const int desiredFrameTime = 1000 / FPS; // Target ms per frame
 
-    Uint64 ticks;        // Stores the total MILLISECONDS the program has been running for
-    int actualFrameTime; // Stores the MILLISECONDS for each frame
-    float dt = 1.0f;
+    // Stores the milliseconds the program has been running for (in total)
+    Uint64 ticks = SDL_GetTicks();
+    // Stores the milliseconds (as of the beginning of the last frame)
+    Uint64 lastFrameTicks = ticks;
+    // Stores the milliseconds per each frame (events + update + render)
+    int actualFrameTime = 0;
+    // The time warp/scaling factor used in simulating game objects (ticks - lastFrameTicks) / 1000
+    float dt = 0.0f;
 
     game = new Game(); // Will need to manually clean this up later
     game->init("8552 Tutorial Engine", 800, 600, false);
 
     while (game->running())
     {
+        lastFrameTicks = ticks;
         ticks = SDL_GetTicks();
+        dt = (ticks - lastFrameTicks) / 1000.0f;
 
         // Handle game logic and rendering
         game->handleEvents();
@@ -28,7 +35,6 @@ int main()
 
         // Get elapsed time in ms of the last frame
         actualFrameTime = SDL_GetTicks() - ticks;
-        dt = actualFrameTime / 1000.0f;
 
         // Frame limiter, keep the game running at desired frame rate.
         // If the actual frame time took less time than our desired frame time, delay by their difference
@@ -36,12 +42,6 @@ int main()
         {
             SDL_Delay(desiredFrameTime - actualFrameTime);
         }
-
-        // Logs when a frame takes longer than expected
-        // if (actualFrameTime > desiredFrameTime)
-        // {
-        //     std::cout << "Frame took longer than expected! Actual frame ms: " << actualFrameTime << std::endl;
-        // }
     }
 
     // Cleanup game
