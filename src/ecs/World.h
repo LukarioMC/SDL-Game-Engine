@@ -7,6 +7,7 @@
 #include "RenderSystem.h"
 #include "KeyboardInputSystem.h"
 #include "CollisionSystem.h"
+#include "EventManager.h"
 
 class World
 {
@@ -15,8 +16,11 @@ class World
     RenderSystem renderSystem;
     KeyboardInputSystem keyboardInputSystem;
     CollisionSystem collisionSystem;
+    EventManager eventManager;
 
 public:
+    World();
+
     void update(float dt, const SDL_Event &event)
     {
         keyboardInputSystem.update(entities, event);
@@ -24,6 +28,7 @@ public:
         collisionSystem.update(*this);
         cleanup();
     }
+
     void render()
     {
         renderSystem.render(entities);
@@ -46,5 +51,10 @@ public:
         // Use lambda predicate to manage and remove inactive entities.
         std::erase_if(entities, [](std::unique_ptr<Entity> &e)
                       { return !e->isActive(); });
+    }
+
+    EventManager &getEventManager()
+    {
+        return eventManager;
     }
 };
