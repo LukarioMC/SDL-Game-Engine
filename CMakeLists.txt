@@ -18,6 +18,7 @@ if (WIN32)
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_SOURCE_DIR}/src/ecs
         ${PROJECT_SOURCE_DIR}/src/ecs/system
+        ${PROJECT_SOURCE_DIR}/src/utils
     )
     link_directories(
         ${SDL3_PATH}/lib
