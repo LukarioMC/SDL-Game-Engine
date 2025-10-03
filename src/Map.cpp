@@ -29,16 +29,6 @@ Map::Map() : water(TextureManager::load("../asset/water.png")),
     dest.w = dest.h = 64;
 }
 
-Map::~Map()
-{
-    if (water)
-        SDL_DestroyTexture(water);
-    if (dirt)
-        SDL_DestroyTexture(dirt);
-    if (grass)
-        SDL_DestroyTexture(grass);
-}
-
 void Map::load(int data[10][15])
 {
     for (int row = 0; row < 10; row++)
