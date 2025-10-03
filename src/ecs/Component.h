@@ -28,3 +28,9 @@ struct Sprite
     SDL_FRect src{};
     SDL_FRect dst{};
 };
+
+struct Collider
+{
+    std::string tag;
+    SDL_FRect rect{};
+};

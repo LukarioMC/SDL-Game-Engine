@@ -62,10 +62,27 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     auto &playerTransform = player.addComponent<Transform>(Vector2D(0, 0), 0.0f, 1.0f);
     auto &playerVelocity = player.addComponent<Velocity>(Vector2D(10, 0), 60.0f);
 
-    SDL_Texture *tex = TextureManager::load("../asset/mario.png");
+    SDL_Texture *playerTex = TextureManager::load("../asset/mario.png");
     SDL_FRect playerSrc{0, 0, 32, 44};
     SDL_FRect playerDst{playerTransform.position.x, playerTransform.position.y, 64, 88};
-    player.addComponent<Sprite>(tex, playerSrc, playerDst);
+    player.addComponent<Sprite>(playerTex, playerSrc, playerDst);
+
+    auto &playerCollider = player.addComponent<Collider>("player");
+    playerCollider.rect.w = playerDst.w;
+    playerCollider.rect.h = playerDst.h;
+
+    // Coin Item
+    auto &item(world.createEntity());
+    auto &itemTransform = item.addComponent<Transform>(Vector2D(100, 200), 0.0f, 1.0f);
+
+    SDL_Texture *itemTex = TextureManager::load("../asset/coin.png");
+    SDL_FRect itemSrc{0, 0, 32, 32};
+    SDL_FRect itemDst{itemTransform.position.x, itemTransform.position.y, 32, 32};
+    item.addComponent<Sprite>(itemTex, itemSrc, itemDst);
+
+    auto &itemCollider = item.addComponent<Collider>("item");
+    itemCollider.rect.w = itemDst.w;
+    itemCollider.rect.h = itemDst.h;
 }
 
 void Game::handleEvents()

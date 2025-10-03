@@ -6,6 +6,7 @@
 #include "MovementSystem.h"
 #include "RenderSystem.h"
 #include "KeyboardInputSystem.h"
+#include "CollisionSystem.h"
 
 class World
 {
@@ -13,12 +14,14 @@ class World
     MovementSystem movementSystem;
     RenderSystem renderSystem;
     KeyboardInputSystem keyboardInputSystem;
+    CollisionSystem collisionSystem;
 
 public:
     void update(float dt, const SDL_Event &event)
     {
         keyboardInputSystem.update(entities, event);
         movementSystem.update(entities, dt);
+        collisionSystem.update(*this);
         cleanup();
     }
     void render()
