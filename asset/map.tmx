@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="13">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="20">
  <tileset firstgid="1" source="../../spritesheet_terrain.tsx"/>
  <layer id="1" name="Terrain" width="30" height="20">
   <data encoding="csv">
@@ -36,5 +36,28 @@
   <object id="9" x="256" y="96.125" width="32" height="31.7826"/>
   <object id="10" x="288" y="128" width="32" height="32"/>
   <object id="11" x="320" y="160" width="96" height="32"/>
+ </objectgroup>
+ <objectgroup id="3" name="ItemSpawns">
+  <object id="13" x="80" y="113.333">
+   <point/>
+  </object>
+  <object id="14" x="142.667" y="210">
+   <point/>
+  </object>
+  <object id="15" x="240.667" y="270.667">
+   <point/>
+  </object>
+  <object id="16" x="366" y="305.333">
+   <point/>
+  </object>
+  <object id="17" x="495.333" y="276">
+   <point/>
+  </object>
+  <object id="18" x="527.333" y="304.667">
+   <point/>
+  </object>
+  <object id="19" x="496" y="336.667">
+   <point/>
+  </object>
  </objectgroup>
 </map>

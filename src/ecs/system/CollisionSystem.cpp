@@ -28,6 +28,11 @@ void CollisionSystem::update(World &world)
 
             if (Collision::AABB(colliderA, colliderB))
             {
+                if (colliderA.tag == colliderB.tag)
+                {
+                    // ! Make sure this is intended, just skipping wall to wall, item to item collisions
+                    continue;
+                }
                 std::cout << colliderA.tag << " hit " << colliderB.tag << std::endl;
                 world.getEventManager().emit(CollisionEvent{entityA, entityB});
             }

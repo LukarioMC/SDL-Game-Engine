@@ -43,6 +43,15 @@ void Map::load(const char *path, SDL_Texture *tex)
         c.rect.h = obj->FloatAttribute("height");
         colliders.push_back(c);
     }
+    // Parse item spawn data
+    // !Make sure the order is correct?
+    auto *itemSpawnGroup = objectGroup->NextSiblingElement("objectgroup");
+    for (auto *obj = itemSpawnGroup->FirstChildElement("object"); obj != nullptr; obj = obj->NextSiblingElement("object"))
+    {
+        float x = obj->FloatAttribute("x");
+        float y = obj->FloatAttribute("y");
+        itemSpawns.push_back(Vector2D(x, y));
+    }
 }
 
 void Map::draw()

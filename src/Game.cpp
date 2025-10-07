@@ -63,11 +63,16 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         c.rect.y = collider.rect.y;
         c.rect.w = collider.rect.w;
         c.rect.h = collider.rect.h;
+
+        SDL_Texture *tex = TextureManager::load("../asset/spritesheet_terrain.png");
+        SDL_FRect colSrc{0, 32, 32, 32};
+        SDL_FRect colDst{c.rect.x, c.rect.y, c.rect.w, c.rect.h};
+        e.addComponent<Sprite>(tex, colSrc, colDst);
     }
     // Player
     auto &player(world.createEntity());
     auto &playerTransform = player.addComponent<Transform>(Vector2D(0, 0), 0.0f, 1.0f);
-    auto &playerVelocity = player.addComponent<Velocity>(Vector2D(10, 0), 60.0f);
+    auto &playerVelocity = player.addComponent<Velocity>(Vector2D(0, 0), 120.0f);
 
     SDL_Texture *playerTex = TextureManager::load("../asset/mario.png");
     SDL_FRect playerSrc{0, 0, 32, 44};
@@ -78,18 +83,21 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     playerCollider.rect.w = playerDst.w;
     playerCollider.rect.h = playerDst.h;
 
-    // Coin Item
-    auto &item(world.createEntity());
-    auto &itemTransform = item.addComponent<Transform>(Vector2D(100, 200), 0.0f, 1.0f);
+    // Coin Items
+    for (auto point : world.getMap().itemSpawns)
+    {
+        auto &item(world.createEntity());
+        auto &itemTransform = item.addComponent<Transform>(Vector2D(point.x - 16, point.y - 16), 0.0f, 1.0f);
 
-    SDL_Texture *itemTex = TextureManager::load("../asset/coin.png");
-    SDL_FRect itemSrc{0, 0, 32, 32};
-    SDL_FRect itemDst{itemTransform.position.x, itemTransform.position.y, 32, 32};
-    item.addComponent<Sprite>(itemTex, itemSrc, itemDst);
+        SDL_Texture *itemTex = TextureManager::load("../asset/coin.png");
+        SDL_FRect itemSrc{0, 0, 32, 32};
+        SDL_FRect itemDst{itemTransform.position.x, itemTransform.position.y, 32, 32};
+        item.addComponent<Sprite>(itemTex, itemSrc, itemDst);
 
-    auto &itemCollider = item.addComponent<Collider>("item");
-    itemCollider.rect.w = itemDst.w;
-    itemCollider.rect.h = itemDst.h;
+        auto &itemCollider = item.addComponent<Collider>("item");
+        itemCollider.rect.w = itemDst.w;
+        itemCollider.rect.h = itemDst.h;
+    }
 }
 
 void Game::handleEvents()
