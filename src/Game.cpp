@@ -2,10 +2,7 @@
 #include <ostream>
 
 #include "Game.h"
-#include "Map.h"
 #include "TextureManager.h"
-
-Map *map = nullptr;
 
 Game::Game()
 {
@@ -55,9 +52,19 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         isRunning = false;
     }
 
-    // Load map data
-    map = new Map();
+    world.getMap().load("../asset/map.tmx", TextureManager::load("../asset/spritesheet_terrain.png"));
     // Add entities
+    for (auto &collider : world.getMap().colliders)
+    {
+        auto &e = world.createEntity();
+        e.addComponent<Transform>(Vector2D(collider.rect.x, collider.rect.y), 0.0f, 1.0f);
+        auto &c = e.addComponent<Collider>("wall");
+        c.rect.x = collider.rect.x;
+        c.rect.y = collider.rect.y;
+        c.rect.w = collider.rect.w;
+        c.rect.h = collider.rect.h;
+    }
+    // Player
     auto &player(world.createEntity());
     auto &playerTransform = player.addComponent<Transform>(Vector2D(0, 0), 0.0f, 1.0f);
     auto &playerVelocity = player.addComponent<Velocity>(Vector2D(10, 0), 60.0f);
@@ -114,7 +121,6 @@ void Game::render()
     SDL_RenderClear(renderer);
 
     // Subsystems/other drawing goes below.
-    map->draw();
     world.render();
 
     // Display everything that was drawn to the screen.

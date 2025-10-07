@@ -7,16 +7,20 @@ void CollisionSystem::update(World &world)
 {
     // Get list of entities w/ collliders.
     const std::vector<Entity *> collidables = queryCollidables(world.getEntities());
-    // Outer loop
+    // Update collider positions
+    for (auto entity : collidables)
+    {
+        auto &t = entity->getComponent<Transform>();
+        auto &c = entity->getComponent<Collider>();
+        c.rect.x = t.position.x;
+        c.rect.y = t.position.y;
+    }
+    // Check for collision interaction
     for (size_t i = 0; i < collidables.size(); i++)
     {
         auto entityA = collidables[i];
         auto &transformA = entityA->getComponent<Transform>();
         auto &colliderA = entityA->getComponent<Collider>();
-
-        colliderA.rect.x = transformA.position.x;
-        colliderA.rect.y = transformA.position.y;
-        // Check for collision interaction
         for (size_t j = i + 1; j < collidables.size(); j++)
         {
             auto entityB = collidables[j];

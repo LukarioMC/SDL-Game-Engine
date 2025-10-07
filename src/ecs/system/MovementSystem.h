@@ -21,6 +21,7 @@ public:
                 direction.normalize();
                 // We need an overloaded operator function
                 Vector2D velocity = direction * v.speed;
+                t.oldPosition = t.position; // Track old position
                 t.position += (velocity * dt);
             }
         }

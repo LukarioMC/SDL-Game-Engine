@@ -1,22 +1,20 @@
 #pragma once
 
-#include "Game.h"
+#include <vector>
+#include <SDL3/SDL.h>
+#include <Component.h>
 
 class Map
 {
 public:
-    Map();
-    ~Map();
+    Map() = default;
+    ~Map() = default;
 
-    void load(int data[10][15]);
+    void load(const char *path, SDL_Texture *tex);
     void draw();
 
-private:
-    // Brace initialization to make the struct values within all zereo'd
-    SDL_FRect src{}, dest{};
-    SDL_Texture *water = nullptr;
-    SDL_Texture *dirt = nullptr;
-    SDL_Texture *grass = nullptr;
-
-    int map[10][15]{};
+    SDL_Texture *tileset = nullptr;
+    int width{}, height{}, tileWidth{}, tileHeight{};
+    std::vector<std::vector<int>> tileData;
+    std::vector<Collider> colliders;
 };

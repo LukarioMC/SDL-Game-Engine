@@ -8,6 +8,7 @@ struct Transform
     Vector2D position{};
     float rotation{};
     float scale{};
+    Vector2D oldPosition{};
 };
 
 struct Velocity

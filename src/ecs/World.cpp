@@ -13,20 +13,38 @@ World::World()
 
                                                Entity *player = nullptr;
                                                Entity *item = nullptr;
+                                               Entity *wall = nullptr;
 
                                                if (colliderA.tag == "player" && colliderB.tag == "item")
                                                {
-                                                player = collision.entityA;
-                                                item = collision.entityB;
+                                                   player = collision.entityA;
+                                                   item = collision.entityB;
                                                }
                                                else if (colliderA.tag == "item" && colliderB.tag == "player")
                                                {
-                                                player = collision.entityB;
-                                                item = collision.entityA;
+                                                   player = collision.entityB;
+                                                   item = collision.entityA;
                                                }
-                                               
+
                                                if (player && item)
                                                {
-                                                item->destroy();
+                                                   item->destroy();
+                                               }
+
+                                               if (colliderA.tag == "player" && colliderB.tag == "wall")
+                                               {
+                                                   player = collision.entityA;
+                                                   wall = collision.entityB;
+                                               }
+                                               else if (colliderA.tag == "wall" && colliderB.tag == "player")
+                                               {
+                                                   player = collision.entityB;
+                                                   wall = collision.entityA;
+                                               }
+                                               if (player && wall)
+                                               {
+                                                   // Stop player movement
+                                                   auto &t = player->getComponent<Transform>();
+                                                   t.position = t.oldPosition;
                                                } });
 }
