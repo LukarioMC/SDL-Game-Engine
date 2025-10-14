@@ -72,6 +72,14 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         SDL_FRect colDst{c.rect.x, c.rect.y, c.rect.w, c.rect.h};
         e.addComponent<Sprite>(tex, colSrc, colDst);
     }
+
+    // Create Camera
+    auto &camera = world.createEntity();
+    SDL_FRect cameraView{};
+    cameraView.w = width;
+    cameraView.h = height;
+    camera.addComponent<Camera>(cameraView, world.getMap().width * 32, world.getMap().height * 32); // ? Hardcoded w/h
+
     // Player
     auto &player(world.createEntity());
     auto &playerTransform = player.addComponent<Transform>(Vector2D(0, 0), 0.0f, 1.0f);
@@ -93,6 +101,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     auto &playerCollider = player.addComponent<Collider>("player");
     playerCollider.rect.w = playerDst.w;
     playerCollider.rect.h = playerDst.h;
+
+    player.addComponent<PlayerTag>();
 
     // Coin Items
     for (auto point : world.getMap().itemSpawns)

@@ -10,6 +10,7 @@
 #include "EventManager.h"
 #include "Map.h"
 #include "AnimationSystem.h"
+#include "CameraSystem.h"
 
 class World
 {
@@ -19,6 +20,7 @@ class World
     RenderSystem renderSystem;
     KeyboardInputSystem keyboardInputSystem;
     CollisionSystem collisionSystem;
+    CameraSystem cameraSystem;
     AnimationSystem animationSystem;
     EventManager eventManager;
 
@@ -31,12 +33,20 @@ public:
         movementSystem.update(entities, dt);
         collisionSystem.update(*this);
         animationSystem.update(entities, dt);
+        cameraSystem.update(entities);
         cleanup();
     }
 
     void render()
     {
-        map.draw();
+        for (auto &e : entities)
+        {
+            if (e->hasComponent<Camera>())
+            {
+                map.draw(e->getComponent<Camera>());
+                break;
+            }
+        }
         renderSystem.render(entities);
     }
 

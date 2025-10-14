@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <sstream>
 #include <tinyxml2.h>
+#include <cmath>
 
 void Map::load(const char *path, SDL_Texture *tex)
 {
@@ -54,7 +55,7 @@ void Map::load(const char *path, SDL_Texture *tex)
     }
 }
 
-void Map::draw()
+void Map::draw(const Camera &camera)
 {
     SDL_FRect src{}, dest{};
 
@@ -69,8 +70,12 @@ void Map::draw()
         {
             type = tileData[row][col];
 
-            dest.y = static_cast<float>(row) * dest.w;
-            dest.x = static_cast<float>(col) * dest.h;
+            float worldX = static_cast<float>(col) * dest.w;
+            float worldY = static_cast<float>(row) * dest.h;
+
+            // Move tiles relative to camera position (world -> screen)
+            dest.x = std::round(worldX - camera.view.x);
+            dest.y = std::round(worldY - camera.view.y);
 
             switch (type)
             {
