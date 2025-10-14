@@ -33,7 +33,6 @@ void CollisionSystem::update(World &world)
                     // ! Make sure this is intended, just skipping wall to wall, item to item collisions
                     continue;
                 }
-                std::cout << colliderA.tag << " hit " << colliderB.tag << std::endl;
                 world.getEventManager().emit(CollisionEvent{entityA, entityB});
             }
         }

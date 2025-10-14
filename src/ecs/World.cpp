@@ -1,4 +1,12 @@
 #include "world.h"
+#include <iostream>
+
+void printCollisionEvent(const CollisionEvent &collision)
+{
+    Collider colliderA = collision.entityA->getComponent<Collider>();
+    Collider colliderB = collision.entityB->getComponent<Collider>();
+    std::cout << "A collision occurred between " << colliderA.tag << " and " << colliderB.tag << std::endl;
+}
 
 World::World()
 {
@@ -47,4 +55,6 @@ World::World()
                                                    auto &t = player->getComponent<Transform>();
                                                    t.position = t.oldPosition;
                                                } });
+
+    eventManager.subscribe<CollisionEvent>(printCollisionEvent);
 }
