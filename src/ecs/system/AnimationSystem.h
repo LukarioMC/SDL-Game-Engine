@@ -27,15 +27,23 @@ public:
                 // Hardcoded for now.
                 if (velocity.direction.x > 0.0f)
                 {
-                    newClip = "walk_right";
+                    newClip = "walk_east";
                 }
                 else if (velocity.direction.x < 0.0f)
                 {
-                    newClip = "walk_left";
+                    newClip = "walk_west";
+                }
+                else if (velocity.direction.y < 0.0f)
+                {
+                    newClip = "walk_north";
+                }
+                else if (velocity.direction.y > 0.0f)
+                {
+                    newClip = "walk_south";
                 }
                 else
                 {
-                    newClip = "idle_right";
+                    newClip = "idle";
                 }
 
                 // Check if animation has switched and reset associated vars

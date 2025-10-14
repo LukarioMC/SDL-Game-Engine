@@ -53,7 +53,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         isRunning = false;
     }
 
-    AssetManager::loadAnimation("player", "../asset/animations/bull_animations.xml");
+    AssetManager::loadAnimation("player", "../asset/animations/chick_animations.xml");
 
     world.getMap().load("../asset/map.tmx", TextureManager::load("../asset/spritesheet_terrain.png"));
     // Add entities
@@ -88,7 +88,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     Animation animation = AssetManager::getAnimation("player");
     player.addComponent<Animation>(animation);
 
-    SDL_Texture *playerTex = TextureManager::load("../asset/animations/bull_anim.png");
+    SDL_Texture *playerTex = TextureManager::load("../asset/animations/chick_anim.png");
     SDL_FRect playerSrc = animation.clips[animation.currentClip].frameIndices[0];
     SDL_FRect playerDst{playerTransform.position.x, playerTransform.position.y, 64, 64};
 
