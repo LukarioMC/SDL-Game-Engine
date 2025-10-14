@@ -1,7 +1,12 @@
 #pragma once
+
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <Vector2D.h>
+#include <unordered_map>
+#include <string>
+
+#include "AnimationClip.h"
 
 struct Transform
 {
@@ -34,4 +39,13 @@ struct Collider
 {
     std::string tag;
     SDL_FRect rect{};
+};
+
+struct Animation
+{
+    std::unordered_map<std::string, AnimationClip> clips{};
+    std::string currentClip;
+    float time{};       // Accumulated over current frame
+    int currentFrame{}; // Current frame index
+    float speed = 0.1f; // Time per frame
 };
