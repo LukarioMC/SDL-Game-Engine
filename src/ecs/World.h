@@ -9,6 +9,7 @@
 #include "CollisionSystem.h"
 #include "EventManager.h"
 #include "Map.h"
+#include "AnimationSystem.h"
 
 class World
 {
@@ -18,6 +19,7 @@ class World
     RenderSystem renderSystem;
     KeyboardInputSystem keyboardInputSystem;
     CollisionSystem collisionSystem;
+    AnimationSystem animationSystem;
     EventManager eventManager;
 
 public:
@@ -28,6 +30,7 @@ public:
         keyboardInputSystem.update(entities, event);
         movementSystem.update(entities, dt);
         collisionSystem.update(*this);
+        animationSystem.update(entities, dt);
         cleanup();
     }
 

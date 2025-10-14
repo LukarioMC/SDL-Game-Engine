@@ -19,6 +19,14 @@ public:
                 auto &sprite = entity->getComponent<Sprite>();
                 sprite.dst.x = t.position.x;
                 sprite.dst.y = t.position.y;
+
+                // If entity has animation, update src rect
+                if (entity->hasComponent<Animation>())
+                {
+                    auto &animation = entity->getComponent<Animation>();
+                    sprite.src = animation.clips[animation.currentClip].frameIndices[animation.currentFrame];
+                }
+
                 TextureManager::draw(sprite.texture, sprite.src, sprite.dst);
             }
         }
