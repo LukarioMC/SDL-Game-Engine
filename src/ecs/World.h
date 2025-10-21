@@ -11,17 +11,22 @@
 #include "Map.h"
 #include "AnimationSystem.h"
 #include "CameraSystem.h"
+#include "SpawnTimerSystem.h"
+#include "DestructionSystem.h"
 
 class World
 {
     Map map;
     std::vector<std::unique_ptr<Entity>> entities;
+    std::vector<std::unique_ptr<Entity>> deferredEntities;
+    AnimationSystem animationSystem;
+    CameraSystem cameraSystem;
+    CollisionSystem collisionSystem;
+    DestructionSystem destructionSystem;
+    KeyboardInputSystem keyboardInputSystem;
     MovementSystem movementSystem;
     RenderSystem renderSystem;
-    KeyboardInputSystem keyboardInputSystem;
-    CollisionSystem collisionSystem;
-    CameraSystem cameraSystem;
-    AnimationSystem animationSystem;
+    SpawnTimerSystem spawnTimerSystem;
     EventManager eventManager;
 
 public:
@@ -34,6 +39,9 @@ public:
         collisionSystem.update(*this);
         animationSystem.update(entities, dt);
         cameraSystem.update(entities);
+        spawnTimerSystem.update(entities, dt);
+        destructionSystem.update(entities);
+        synchronizeEntities();
         cleanup();
     }
 
@@ -57,6 +65,12 @@ public:
         return *entities.back();
     }
 
+    Entity &createDeferredEntity()
+    {
+        deferredEntities.emplace_back(std::make_unique<Entity>());
+        return *deferredEntities.back();
+    }
+
     std::vector<std::unique_ptr<Entity>> &getEntities()
     {
         return entities;
@@ -67,6 +81,15 @@ public:
         // Use lambda predicate to manage and remove inactive entities.
         std::erase_if(entities, [](std::unique_ptr<Entity> &e)
                       { return !e->isActive(); });
+    }
+
+    void synchronizeEntities()
+    {
+        if (deferredEntities.empty())
+            return;
+        // Move deferred entities into the active entities list & clear it
+        std::move(deferredEntities.begin(), deferredEntities.end(), std::back_inserter(entities));
+        deferredEntities.clear();
     }
 
     EventManager &getEventManager()

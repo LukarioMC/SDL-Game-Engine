@@ -54,6 +54,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     }
 
     AssetManager::loadAnimation("player", "../asset/animations/chick_animations.xml");
+    AssetManager::loadAnimation("enemy", "../asset/animations/bird_animations.xml");
 
     world.getMap().load("../asset/map.tmx", TextureManager::load("../asset/spritesheet_terrain.png"));
     // Add entities
@@ -119,6 +120,30 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         itemCollider.rect.w = itemDst.w;
         itemCollider.rect.h = itemDst.h;
     }
+
+    // TimedSpawner
+    auto &spawner(world.createEntity());
+    Transform t = spawner.addComponent<Transform>(Vector2D(width / 2, height - 5), 0.0f, 1.0f);
+    spawner.addComponent<TimedSpawner>(2.0f, [this, t]
+                                       {
+                                           // Create enemy
+                                           auto &e(world.createDeferredEntity());
+                                           e.addComponent<Transform>(Vector2D(t.position.x, t.position.y), 0.0f, 1.0f);
+                                           e.addComponent<Velocity>(Vector2D(0, -1), 100.0f);
+
+                                           SDL_Texture *tex = TextureManager::load("../asset/animations/bird_anim.png");
+                                           SDL_FRect src{0, 0, 32, 32};
+                                           SDL_FRect dst{t.position.x, t.position.y, 32, 32};
+                                           e.addComponent<Sprite>(tex, src, dst);
+
+                                           Animation anim = AssetManager::getAnimation("enemy");
+                                           e.addComponent<Animation>(anim);
+
+                                           Collider c = e.addComponent<Collider>("projectile");
+                                           c.rect.w = dst.w;
+                                           c.rect.h = dst.h;
+
+                                           e.addComponent<ProjectileTag>(); });
 }
 
 void Game::handleEvents()

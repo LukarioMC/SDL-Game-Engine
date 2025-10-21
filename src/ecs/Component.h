@@ -5,6 +5,7 @@
 #include <Vector2D.h>
 #include <unordered_map>
 #include <string>
+#include <functional>
 
 #include "AnimationClip.h"
 
@@ -57,6 +58,24 @@ struct Camera
     float worldHeight;
 };
 
+struct TimedSpawner
+{
+    float spawnInterval{};
+    std::function<void()> spawnCallback{};
+    float timer{};
+};
+
+// Games current scene's state information
+struct SceneState
+{
+    int coinsCollected = 0;
+};
+
+// === Tags ===
 struct PlayerTag
+{
+};
+
+struct ProjectileTag
 {
 };

@@ -13,7 +13,7 @@ public:
     {
         for (auto &entity : entities)
         {
-            if (entity->hasComponent<Velocity>())
+            if (entity->hasComponent<PlayerTag>() && entity->hasComponent<Velocity>())
             {
                 // MovementSystem handles actual movement, simply change direction.
                 auto &v = entity->getComponent<Velocity>();
