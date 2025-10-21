@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include "World.h"
+#include <SceneManager.h>
 
 class Game
 {
@@ -29,9 +29,8 @@ public:
         return renderer;
     }
 
-    World world;
-
-    void randomizeRendererColor();
+    SceneManager sceneManager;
+    static std::function<void(std::string)> onSceneChangeRequest;
 
 private:
     bool isRunning = false;

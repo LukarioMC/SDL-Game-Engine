@@ -92,6 +92,20 @@ public:
         deferredEntities.clear();
     }
 
+    bool isValidCollision(const CollisionEvent &collision)
+    {
+        if (collision.entityA == nullptr || collision.entityB == nullptr)
+            return false;
+        if (!(collision.entityA->hasComponent<Collider>() && collision.entityB->hasComponent<Collider>()))
+            return false;
+        // Both entities exist and have collider components
+        return true;
+    }
+
+    void playerWallCollisionHandler(const CollisionEvent &collision);
+    void playerItemCollisionHandler(const CollisionEvent &collision);
+    void playerProjectileCollisionHandler(const CollisionEvent &collision);
+
     EventManager &getEventManager()
     {
         return eventManager;

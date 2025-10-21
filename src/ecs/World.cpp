@@ -1,4 +1,5 @@
-#include "world.h"
+#include <Game.h>
+#include <World.h>
 #include <iostream>
 
 void printCollisionEvent(const CollisionEvent &collision)
@@ -8,17 +9,7 @@ void printCollisionEvent(const CollisionEvent &collision)
     std::cout << "A collision occurred between " << colliderA.tag << " and " << colliderB.tag << std::endl;
 }
 
-bool isValidCollision(const CollisionEvent &collision)
-{
-    if (collision.entityA == nullptr || collision.entityB == nullptr)
-        return false;
-    if (!(collision.entityA->hasComponent<Collider>() && collision.entityB->hasComponent<Collider>()))
-        return false;
-    // Both entities exist and have collider components
-    return true;
-}
-
-void playerWallCollisionHandler(const CollisionEvent &collision)
+void World::playerWallCollisionHandler(const CollisionEvent &collision)
 {
     if (!isValidCollision(collision))
         return;
@@ -46,12 +37,23 @@ void playerWallCollisionHandler(const CollisionEvent &collision)
     }
 }
 
-void playerItemCollisionHandler(const CollisionEvent &collision)
+void World::playerItemCollisionHandler(const CollisionEvent &collision)
 {
     if (!isValidCollision(collision))
         return;
+
     auto &colliderA = collision.entityA->getComponent<Collider>();
     auto &colliderB = collision.entityB->getComponent<Collider>();
+
+    Entity *sceneStateEntity = nullptr;
+    for (auto &e : entities)
+    {
+        if (e->hasComponent<SceneState>())
+        {
+            sceneStateEntity = e.get();
+            break;
+        }
+    }
 
     Entity *player = nullptr;
     Entity *item = nullptr;
@@ -70,10 +72,19 @@ void playerItemCollisionHandler(const CollisionEvent &collision)
     if (player && item)
     {
         item->destroy();
+        // Increment score in scene state
+        if (!sceneStateEntity)
+            return;
+        auto &sceneState = sceneStateEntity->getComponent<SceneState>();
+        sceneState.coinsCollected++;
+        if (sceneState.coinsCollected >= 2)
+        {
+            Game::onSceneChangeRequest("level2");
+        }
     }
 }
 
-void playerProjectileCollisionHandler(const CollisionEvent &collision)
+void World::playerProjectileCollisionHandler(const CollisionEvent &collision)
 {
     if (!isValidCollision(collision))
         return;
@@ -97,13 +108,21 @@ void playerProjectileCollisionHandler(const CollisionEvent &collision)
     if (player && projectile)
     {
         player->destroy();
+        Game::onSceneChangeRequest("gameover");
     }
 }
 
 World::World()
 {
-    eventManager.subscribe<CollisionEvent>(playerWallCollisionHandler);
-    eventManager.subscribe<CollisionEvent>(playerItemCollisionHandler);
-    eventManager.subscribe<CollisionEvent>(playerProjectileCollisionHandler);
-    eventManager.subscribe<CollisionEvent>(printCollisionEvent);
+    eventManager.subscribe([&](const CollisionEvent &e)
+                           { playerWallCollisionHandler(e); });
+    eventManager.subscribe([&](const CollisionEvent &e)
+                           { playerItemCollisionHandler(e); });
+    eventManager.subscribe([&](const CollisionEvent &e)
+                           { playerProjectileCollisionHandler(e); });
+    // eventManager.subscribe(printCollisionEvent);
+    // eventManager.subscribe<CollisionEvent>(playerWallCollisionHandler);
+    // eventManager.subscribe<CollisionEvent>(playerItemCollisionHandler);
+    // eventManager.subscribe<CollisionEvent>(playerProjectileCollisionHandler);
+    // eventManager.subscribe<CollisionEvent>(printCollisionEvent);
 }
