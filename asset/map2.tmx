@@ -40,6 +40,14 @@
 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
 </data>
  </layer>
+ <objectgroup id="3" name="Item Layer">
+  <object id="10" x="1197.16" y="802.592">
+   <point/>
+  </object>
+  <object id="20" x="189.569" y="487.173">
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup id="2" name="Collision Layer" locked="1">
   <object id="1" x="134.513" y="4.48376" width="1037.99" height="85.1913"/>
   <object id="2" x="1188.2" y="-2.24188" width="85.1913" height="470.794"/>
@@ -49,13 +57,5 @@
   <object id="6" x="4.48376" y="863.123" width="1266.66" height="89.6751"/>
   <object id="7" x="6.72563" y="190.56" width="82.9495" height="663.596"/>
   <object id="8" x="98.6426" y="196.878" width="979.7" height="87.4332"/>
- </objectgroup>
- <objectgroup id="3" name="Item Layer">
-  <object id="10" x="1197.16" y="802.592">
-   <point/>
-  </object>
-  <object id="20" x="189.569" y="487.173">
-   <point/>
-  </object>
  </objectgroup>
 </map>

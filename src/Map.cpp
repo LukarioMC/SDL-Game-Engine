@@ -33,25 +33,31 @@ void Map::load(const char *path, SDL_Texture *tex)
             tileData[i][j] = std::stoi(val); // String to int conversion
         }
     }
-    // Parse collider data
-    auto *objectGroup = layer->NextSiblingElement("objectgroup");
-    for (auto *obj = objectGroup->FirstChildElement("object"); obj != nullptr; obj = obj->NextSiblingElement("object"))
+
+    for (auto *objectGroup = layer->NextSiblingElement("objectgroup"); objectGroup; objectGroup = objectGroup->NextSiblingElement("objectgroup"))
     {
-        Collider c;
-        c.rect.x = obj->FloatAttribute("x");
-        c.rect.y = obj->FloatAttribute("y");
-        c.rect.w = obj->FloatAttribute("width");
-        c.rect.h = obj->FloatAttribute("height");
-        colliders.push_back(c);
-    }
-    // Parse item spawn data
-    // !Make sure the order is correct?
-    auto *itemSpawnGroup = objectGroup->NextSiblingElement("objectgroup");
-    for (auto *obj = itemSpawnGroup->FirstChildElement("object"); obj != nullptr; obj = obj->NextSiblingElement("object"))
-    {
-        float x = obj->FloatAttribute("x");
-        float y = obj->FloatAttribute("y");
-        itemSpawns.push_back(Vector2D(x, y));
+        int id = objectGroup->IntAttribute("id");
+        if (id == 2) // Collider logic
+        {
+            for (auto *obj = objectGroup->FirstChildElement("object"); obj != nullptr; obj = obj->NextSiblingElement("object"))
+            {
+                Collider c;
+                c.rect.x = obj->FloatAttribute("x");
+                c.rect.y = obj->FloatAttribute("y");
+                c.rect.w = obj->FloatAttribute("width");
+                c.rect.h = obj->FloatAttribute("height");
+                colliders.push_back(c);
+            }
+        }
+        else if (id == 3) // Item logic
+        {
+            for (auto *obj = objectGroup->FirstChildElement("object"); obj != nullptr; obj = obj->NextSiblingElement("object"))
+            {
+                float x = obj->FloatAttribute("x");
+                float y = obj->FloatAttribute("y");
+                itemSpawns.push_back(Vector2D(x, y));
+            }
+        }
     }
 }
 
